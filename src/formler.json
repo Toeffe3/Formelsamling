@@ -1,3 +1,4 @@
 {
-    { "v": [1, "m/s"], "s": [1, "m"], "t": [-1, "s"]}
+    "Hastighedsformlen": { "s": [1, "m"], "t": [-1, "s"], "v": [-1, "m/s"] },
+    "Relativitetsteorien": { "e": [1, "J"], "m" : [-1, "kg"], "c": [-2, "m/s"] }
 }
