@@ -29,15 +29,18 @@ public class window extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         jList1 = new javax.swing.JList<>();
         jPanel2 = new javax.swing.JPanel();
-        jTextField1 = new javax.swing.JTextField();
-        jLabel3 = new javax.swing.JLabel();
-        jLabel4 = new javax.swing.JLabel();
-        jLabel5 = new javax.swing.JLabel();
-        jLabel6 = new javax.swing.JLabel();
-        jTextField2 = new javax.swing.JTextField();
-        jLabel7 = new javax.swing.JLabel();
-        jLabel8 = new javax.swing.JLabel();
-        jTextField3 = new javax.swing.JTextField();
+        value1 = new javax.swing.JTextField();
+        value2 = new javax.swing.JTextField();
+        value3 = new javax.swing.JTextField();
+        SIEnhed1 = new javax.swing.JLabel();
+        SIEnhed2 = new javax.swing.JLabel();
+        SIEnhed3 = new javax.swing.JLabel();
+        unitLabel1 = new javax.swing.JLabel();
+        unitLabel2 = new javax.swing.JLabel();
+        unitLabel3 = new javax.swing.JLabel();
+        unitSelect1 = new javax.swing.JComboBox<>();
+        unitSelect2 = new javax.swing.JComboBox<>();
+        unitSelect3 = new javax.swing.JComboBox<>();
         jPanel3 = new javax.swing.JPanel();
         jPanel1 = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
@@ -50,7 +53,6 @@ public class window extends javax.swing.JFrame {
         setBackground(new java.awt.Color(255, 204, 51));
         setMaximumSize(new java.awt.Dimension(700, 500));
         setMinimumSize(new java.awt.Dimension(700, 500));
-        setPreferredSize(new java.awt.Dimension(700, 500));
         setResizable(false);
         setSize(new java.awt.Dimension(700, 500));
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -73,59 +75,65 @@ public class window extends javax.swing.JFrame {
         jPanel2.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         jPanel2.setForeground(new java.awt.Color(0, 0, 0));
 
-        jTextField1.setBackground(new java.awt.Color(110, 136, 153));
-        jTextField1.setFont(new java.awt.Font("Cambria Math", 0, 24)); // NOI18N
-        jTextField1.setText("1000");
-        jTextField1.setBorder(null);
-        jTextField1.addActionListener(new java.awt.event.ActionListener() {
+        value1.setBackground(new java.awt.Color(110, 136, 153));
+        value1.setFont(new java.awt.Font("Cambria Math", 0, 24)); // NOI18N
+        value1.setText("1000");
+        value1.setBorder(null);
+        value1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField1ActionPerformed(evt);
+                value1ActionPerformed(evt);
             }
         });
 
-        jLabel3.setBackground(new java.awt.Color(187, 187, 187));
-        jLabel3.setFont(new java.awt.Font("Cambria Math", 0, 24)); // NOI18N
-        jLabel3.setText("Energi [J]");
-
-        jLabel4.setBackground(new java.awt.Color(187, 187, 187));
-        jLabel4.setFont(new java.awt.Font("Cambria Math", 0, 24)); // NOI18N
-        jLabel4.setText("e =");
-
-        jLabel5.setBackground(new java.awt.Color(187, 187, 187));
-        jLabel5.setFont(new java.awt.Font("Cambria Math", 0, 24)); // NOI18N
-        jLabel5.setText("Masse [J]");
-
-        jLabel6.setBackground(new java.awt.Color(187, 187, 187));
-        jLabel6.setFont(new java.awt.Font("Cambria Math", 0, 24)); // NOI18N
-        jLabel6.setText("m =");
-
-        jTextField2.setBackground(new java.awt.Color(110, 136, 153));
-        jTextField2.setFont(new java.awt.Font("Cambria Math", 0, 24)); // NOI18N
-        jTextField2.setText("1000");
-        jTextField2.setBorder(null);
-        jTextField2.addActionListener(new java.awt.event.ActionListener() {
+        value2.setBackground(new java.awt.Color(110, 136, 153));
+        value2.setFont(new java.awt.Font("Cambria Math", 0, 24)); // NOI18N
+        value2.setText("1000");
+        value2.setBorder(null);
+        value2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField2ActionPerformed(evt);
+                value2ActionPerformed(evt);
             }
         });
 
-        jLabel7.setBackground(new java.awt.Color(187, 187, 187));
-        jLabel7.setFont(new java.awt.Font("Cambria Math", 0, 24)); // NOI18N
-        jLabel7.setText("Lysets hastighed [J]");
-
-        jLabel8.setBackground(new java.awt.Color(187, 187, 187));
-        jLabel8.setFont(new java.awt.Font("Cambria Math", 0, 24)); // NOI18N
-        jLabel8.setText("c =");
-
-        jTextField3.setBackground(new java.awt.Color(110, 136, 153));
-        jTextField3.setFont(new java.awt.Font("Cambria Math", 0, 24)); // NOI18N
-        jTextField3.setText("1000");
-        jTextField3.setBorder(null);
-        jTextField3.addActionListener(new java.awt.event.ActionListener() {
+        value3.setBackground(new java.awt.Color(110, 136, 153));
+        value3.setFont(new java.awt.Font("Cambria Math", 0, 24)); // NOI18N
+        value3.setText("1000");
+        value3.setBorder(null);
+        value3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField3ActionPerformed(evt);
+                value3ActionPerformed(evt);
             }
         });
+
+        SIEnhed1.setBackground(new java.awt.Color(187, 187, 187));
+        SIEnhed1.setFont(new java.awt.Font("Cambria Math", 0, 24)); // NOI18N
+        SIEnhed1.setText("Energi [J]");
+
+        SIEnhed2.setBackground(new java.awt.Color(187, 187, 187));
+        SIEnhed2.setFont(new java.awt.Font("Cambria Math", 0, 24)); // NOI18N
+        SIEnhed2.setText("Masse [J]");
+
+        SIEnhed3.setBackground(new java.awt.Color(187, 187, 187));
+        SIEnhed3.setFont(new java.awt.Font("Cambria Math", 0, 24)); // NOI18N
+        SIEnhed3.setText("Lysets hastighed [J]");
+
+        unitLabel1.setBackground(new java.awt.Color(187, 187, 187));
+        unitLabel1.setFont(new java.awt.Font("Cambria Math", 0, 24)); // NOI18N
+        unitLabel1.setText("e =");
+
+        unitLabel2.setBackground(new java.awt.Color(187, 187, 187));
+        unitLabel2.setFont(new java.awt.Font("Cambria Math", 0, 24)); // NOI18N
+        unitLabel2.setText("m =");
+
+        unitLabel3.setBackground(new java.awt.Color(187, 187, 187));
+        unitLabel3.setFont(new java.awt.Font("Cambria Math", 0, 24)); // NOI18N
+        unitLabel3.setText("c =");
+
+        unitSelect1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+
+        unitSelect2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+
+        unitSelect3.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         org.jdesktop.layout.GroupLayout jPanel2Layout = new org.jdesktop.layout.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -135,43 +143,54 @@ public class window extends javax.swing.JFrame {
                 .add(30, 30, 30)
                 .add(jPanel2Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
                     .add(jPanel2Layout.createSequentialGroup()
-                        .add(jLabel7)
+                        .add(SIEnhed3)
                         .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
-                        .add(jLabel8)
+                        .add(unitLabel3)
                         .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                        .add(jTextField3))
+                        .add(value3, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                        .add(unitSelect3, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
                     .add(jPanel2Layout.createSequentialGroup()
-                        .add(jLabel5)
-                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
-                        .add(jLabel6)
+                        .add(jPanel2Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING, false)
+                            .add(jPanel2Layout.createSequentialGroup()
+                                .add(SIEnhed2)
+                                .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
+                                .add(unitLabel2)
+                                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                                .add(value2, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                            .add(jPanel2Layout.createSequentialGroup()
+                                .add(SIEnhed1)
+                                .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
+                                .add(unitLabel1)
+                                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .add(value1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)))
                         .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                        .add(jTextField2))
-                    .add(jPanel2Layout.createSequentialGroup()
-                        .add(jLabel3)
-                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
-                        .add(jLabel4)
-                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                        .add(jTextField1)))
-                .add(30, 30, 30))
+                        .add(jPanel2Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                            .add(unitSelect1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                            .add(unitSelect2, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))))
+                .add(63, 63, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(jPanel2Layout.createSequentialGroup()
                 .add(50, 50, 50)
                 .add(jPanel2Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
-                    .add(jTextField1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                    .add(jLabel3)
-                    .add(jLabel4))
+                    .add(value1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                    .add(SIEnhed1)
+                    .add(unitLabel1)
+                    .add(unitSelect1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
                 .add(30, 30, 30)
                 .add(jPanel2Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
-                    .add(jTextField2, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                    .add(jLabel5)
-                    .add(jLabel6))
+                    .add(SIEnhed2)
+                    .add(unitLabel2)
+                    .add(value2, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                    .add(unitSelect2, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
                 .add(30, 30, 30)
                 .add(jPanel2Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
-                    .add(jTextField3, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                    .add(jLabel7)
-                    .add(jLabel8))
+                    .add(value3, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                    .add(SIEnhed3)
+                    .add(unitLabel3)
+                    .add(unitSelect3, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(49, Short.MAX_VALUE))
         );
 
@@ -242,17 +261,17 @@ public class window extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
+    private void value1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_value1ActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField1ActionPerformed
+    }//GEN-LAST:event_value1ActionPerformed
 
-    private void jTextField2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField2ActionPerformed
+    private void value2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_value2ActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField2ActionPerformed
+    }//GEN-LAST:event_value2ActionPerformed
 
-    private void jTextField3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField3ActionPerformed
+    private void value3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_value3ActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField3ActionPerformed
+    }//GEN-LAST:event_value3ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -290,23 +309,26 @@ public class window extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel SIEnhed1;
+    private javax.swing.JLabel SIEnhed2;
+    private javax.swing.JLabel SIEnhed3;
     private javax.swing.JEditorPane jEditorPane1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
-    private javax.swing.JLabel jLabel8;
     private javax.swing.JList<String> jList1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
-    private javax.swing.JTextField jTextField3;
+    private javax.swing.JLabel unitLabel1;
+    private javax.swing.JLabel unitLabel2;
+    private javax.swing.JLabel unitLabel3;
+    private javax.swing.JComboBox<String> unitSelect1;
+    private javax.swing.JComboBox<String> unitSelect2;
+    private javax.swing.JComboBox<String> unitSelect3;
+    private javax.swing.JTextField value1;
+    private javax.swing.JTextField value2;
+    private javax.swing.JTextField value3;
     // End of variables declaration//GEN-END:variables
 }
