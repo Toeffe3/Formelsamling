@@ -75,6 +75,11 @@ public class window extends javax.swing.JFrame {
             public String getElementAt(int i) { return strings[i]; }
         });
         jList1.setAlignmentX(10.0F);
+        jList1.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
+            public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
+                jList1ValueChanged(evt);
+            }
+        });
         jScrollPane1.setViewportView(jList1);
 
         getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 190, 460));
@@ -280,6 +285,15 @@ public class window extends javax.swing.JFrame {
     private void value3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_value3ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_value3ActionPerformed
+
+    private void jList1ValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_jList1ValueChanged
+        int selectedIndex = jList1.getSelectedIndex();
+        String selected = jList1.getModel().getElementAt(selectedIndex);
+        String[] infomation = formler[selectedIndex].replaceAll("\"[ \\w]+\": ?\\{(.*?)\\},?","$1").split("^\".+?\": ?");
+        for(String s : infomation) {
+            for(String t : s.replaceAll(" ?\"[ \\w]+\":","").split(",? (?!\")")) System.out.println(t.replaceAll("\\[(-?\\d+.?\\d*), \"(.*)\"\\]", "$1: $2"));
+        }
+    }//GEN-LAST:event_jList1ValueChanged
     
     // Array med alle formlerne holdes public til sener brug af andre
     // funktioner/classes.
