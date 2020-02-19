@@ -1,11 +1,3 @@
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -23,23 +15,6 @@ public class window extends javax.swing.JFrame {
      */
     public window() {
         initComponents();
-        load();
-    }
-    
-    public String[] formler;
-    
-    public void load() {
-        try {
-            String formlerString = getFileContent(".\\src\\formler.json"),
-                   enhederString = getFileContent(".\\src\\enheder.json");
-            formler = formlerString.replaceAll("^\\{|  |\\}\\n?$", "").split("\n");
-            String[] navne = new String[formler.length];
-            for(int i = 0; i < navne.length; i++) navne[i] = formler[i].replaceAll("\"(\\w+)\".+","$1");
-            jList1.setListData(navne);
-            //System.out.println(enheder);
-        } catch (IOException ex) {
-            Logger.getLogger(window.class.getName()).log(Level.SEVERE, null, ex);
-        }
     }
 
     /**
@@ -50,7 +25,6 @@ public class window extends javax.swing.JFrame {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
-        bindingGroup = new org.jdesktop.beansbinding.BindingGroup();
 
         jScrollPane1 = new javax.swing.JScrollPane();
         jList1 = new javax.swing.JList<>();
@@ -93,20 +67,6 @@ public class window extends javax.swing.JFrame {
             public String getElementAt(int i) { return strings[i]; }
         });
         jList1.setAlignmentX(10.0F);
-
-        org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, jList1, org.jdesktop.beansbinding.ObjectProperty.create(), jList1, org.jdesktop.beansbinding.BeanProperty.create("selectedElement"));
-        bindingGroup.addBinding(binding);
-
-        jList1.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jList1MouseClicked(evt);
-            }
-        });
-        jList1.addComponentListener(new java.awt.event.ComponentAdapter() {
-            public void componentShown(java.awt.event.ComponentEvent evt) {
-                jList1ComponentShown(evt);
-            }
-        });
         jScrollPane1.setViewportView(jList1);
 
         getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 190, 460));
@@ -170,25 +130,10 @@ public class window extends javax.swing.JFrame {
         unitLabel3.setText("c =");
 
         unitSelect1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        unitSelect1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                unitSelect1ActionPerformed(evt);
-            }
-        });
 
         unitSelect2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        unitSelect2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                unitSelect2ActionPerformed(evt);
-            }
-        });
 
         unitSelect3.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        unitSelect3.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                unitSelect3ActionPerformed(evt);
-            }
-        });
 
         org.jdesktop.layout.GroupLayout jPanel2Layout = new org.jdesktop.layout.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -313,8 +258,6 @@ public class window extends javax.swing.JFrame {
 
         getContentPane().add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 700, 500));
 
-        bindingGroup.bind();
-
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
@@ -330,41 +273,6 @@ public class window extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_value3ActionPerformed
 
-    private void unitSelect1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_unitSelect1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_unitSelect1ActionPerformed
-
-    private void unitSelect2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_unitSelect2ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_unitSelect2ActionPerformed
-
-    private void unitSelect3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_unitSelect3ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_unitSelect3ActionPerformed
-
-    private void jList1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jList1MouseClicked
-
-    }//GEN-LAST:event_jList1MouseClicked
-
-    private void jList1ComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_jList1ComponentShown
-        
-    }//GEN-LAST:event_jList1ComponentShown
-    
-    /**
-     * 
-     * @param path
-     * @return
-     * @throws FileNotFoundException
-     * @throws IOException 
-     */    
-    public static String getFileContent(String path) throws FileNotFoundException, IOException {
-        File file = new File(path);
-        BufferedReader br = new BufferedReader(new FileReader(file));
-        String st, cnt = "";
-        while((st=br.readLine()) != null) cnt += st+"\n";
-        return cnt;
-    }
-    
     /**
      * @param args the command line arguments
      */
@@ -393,8 +301,10 @@ public class window extends javax.swing.JFrame {
         //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(() -> {
-            new window().setVisible(true);
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                new window().setVisible(true);
+            }
         });
     }
 
@@ -420,6 +330,5 @@ public class window extends javax.swing.JFrame {
     private javax.swing.JTextField value1;
     private javax.swing.JTextField value2;
     private javax.swing.JTextField value3;
-    private org.jdesktop.beansbinding.BindingGroup bindingGroup;
     // End of variables declaration//GEN-END:variables
 }
