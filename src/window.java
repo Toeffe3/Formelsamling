@@ -1,12 +1,18 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 
 /**
- *
- * @author dense
+ * Et program der gennem grafisk brugerflade tillader brugeren at slå formler op
+ * og lave udregninger med dem.
+ * @version 1.0 
+ * @author Frederik Dam
+ * @author Victor Jacobsen
  */
 public class window extends javax.swing.JFrame {
 
@@ -15,6 +21,8 @@ public class window extends javax.swing.JFrame {
      */
     public window() {
         initComponents();
+        // Call the initial loading of varibles and dynamic content 
+        load();
     }
 
     /**
@@ -272,7 +280,43 @@ public class window extends javax.swing.JFrame {
     private void value3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_value3ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_value3ActionPerformed
-
+    
+    // Array med alle formlerne holdes public til sener brug af andre
+    // funktioner/classes.
+    public String[] formler;
+    
+    /**
+     * Load content that needs to be loaded at startup, including loading json
+     * files.
+     */
+    public void load() {
+        try {
+            String formlerString = window.getFileContent(".\\src\\formler.json"),
+                   enhederString = window.getFileContent(".\\src\\enheder.json");
+            formler = formlerString.replaceAll("^\\{|  |\\}\\n?$", "").split("\n");
+            String[] navne = new String[formler.length];
+            for(int i = 0; i < navne.length; i++) navne[i] = formler[i].replaceAll("\"(\\w+)\".+","$1");
+            jList1.setListData(navne);
+        } catch (IOException ex) {
+            Logger.getLogger(window.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    /**
+     * Get the content of file.
+     * @param path
+     * @return String
+     * @throws FileNotFoundException
+     * @throws IOException 
+     */
+    public static String getFileContent(String path) throws FileNotFoundException, IOException {
+        File file = new File(path);
+        BufferedReader br = new BufferedReader(new FileReader(file));
+        String st, cnt = "";
+        while((st=br.readLine()) != null) cnt += st+"\n";
+        return cnt;
+    }
+    
     /**
      * @param args the command line arguments
      */
@@ -301,10 +345,8 @@ public class window extends javax.swing.JFrame {
         //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new window().setVisible(true);
-            }
+        java.awt.EventQueue.invokeLater(() -> {
+            new window().setVisible(true);
         });
     }
 
