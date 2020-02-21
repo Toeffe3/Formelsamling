@@ -11,6 +11,6 @@
     "Elektrisk_ladning": { "Q": [-1, "C"], "I": [1, "A"], "t": [1, "s"] },
     "Effekt": { "P": [-1, "W"], "U": [1, "V"], "I": [1, "A"] },
     "Resistans": { "R": [1, "OMEGA"], "U": [-1, "V"], "I": [1, "A"] },
-    "Kinetisk_energi": { " ": [0.5, ""], "E_kin": [-1, "J"], "m": [1, "Kg"], "v": [2, "m/s"] },
+    "Kinetisk_energi": { " ": [0.5, " "], "E_kin": [-1, "J"], "m": [1, "Kg"], "v": [2, "m/s"] },
     "Potentiel_energi": { "G": [1, "N"], "m": [1, "Kg"], "M": [1, "Kg"], "r": [-1, "m"], "E_pot": [-1, "J"] }
 }
