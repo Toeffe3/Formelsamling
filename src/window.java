@@ -60,7 +60,6 @@ public class window extends javax.swing.JFrame {
         jList1.setBackground(new java.awt.Color(110, 136, 153));
         jList1.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         jList1.setFont(new java.awt.Font("Cambria Math", 1, 24)); // NOI18N
-        jList1.setForeground(new java.awt.Color(0, 0, 0));
         jList1.setModel(new javax.swing.AbstractListModel<String>() {
             String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
             public int getSize() { return strings.length; }
@@ -73,7 +72,6 @@ public class window extends javax.swing.JFrame {
 
         jPanel2.setBackground(new java.awt.Color(110, 136, 153));
         jPanel2.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-        jPanel2.setForeground(new java.awt.Color(0, 0, 0));
 
         value1.setBackground(new java.awt.Color(110, 136, 153));
         value1.setFont(new java.awt.Font("Cambria Math", 0, 24)); // NOI18N
@@ -200,7 +198,6 @@ public class window extends javax.swing.JFrame {
 
         jPanel1.setBackground(new java.awt.Color(110, 136, 153));
         jPanel1.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-        jPanel1.setForeground(new java.awt.Color(0, 0, 0));
 
         jEditorPane1.setBackground(new java.awt.Color(110, 136, 153));
         jEditorPane1.setBorder(null);
