@@ -1,16 +1,16 @@
 {
     "Hastighedsformlen": { "s": [1, "m"], "t": [-1, "s"], "v": [-1, "m/s"] },
-    "Relativitetsteorien": { "E": [1, "J"], "m": [-1, "Kg"], "c": [-2, "m/s"] },
-    "Kraft": { "F": [-1, "N"], "m": [1, "Kg"], "a": [1, "m/s²"] },
+    "Relativitetsteorien": { "E": [1, "J"], "m": [-1, "kg"], "c": [-2, "m/s"] },
+    "Kraft": { "F": [-1, "N"], "m": [1, "kg"], "a": [1, "m/s²"] },
     "Acceleration": { "a": [1, "m/s²"], "v": [-1, "m/s"], "t": [1, "s"] },
-    "Impuls": { "p": [-1, "kg*m/s"], "m": [1, "Kg"], "v": [1, "m/s"] },
-    "Tyngdekraft": { "F_t": [-1, "N"], "m": [1, "Kg"], "g": [1, "N/Kg"] },
-    "Tryk": { "PHO": [-1, "Pa"], "F": [1, "N"], "A": [-1, "m²"] },
+    "Impuls": { "p": [-1, "kg*m/s"], "m": [1, "kg"], "v": [1, "m/s"] },
+    "Tyngdekraft": { "F_t": [-1, "N"], "m": [1, "kg"], "g": [1, "N/kg"] },
+    "Tryk": { "RHO": [-1, "Pa"], "F": [1, "N"], "A": [-1, "m²"] },
     "Idealgas": { "p": [-1, "Pa"], "V": [-1, "m³"], "n": [1, "mol"], "R": [1, "R"], "T": [1, "K"] },
     "Frekvens": { "f": [1, "Hz"], "v": [-1, "m/s"], "LAMBDA": [1, "m"] },
     "Elektrisk_ladning": { "Q": [-1, "C"], "I": [1, "A"], "t": [1, "s"] },
     "Effekt": { "P": [-1, "W"], "U": [1, "V"], "I": [1, "A"] },
     "Resistans": { "R": [1, "OMEGA"], "U": [-1, "V"], "I": [1, "A"] },
-    "Kinetisk_energi": { " ": [0.5, " "], "E_kin": [-1, "J"], "m": [1, "Kg"], "v": [2, "m/s"] },
-    "Potentiel_energi": { "G": [1, "N"], "m": [1, "Kg"], "M": [1, "Kg"], "r": [-1, "m"], "E_pot": [-1, "J"] }
+    "Kinetisk_energi": { " ": [0.5, " "], "E_kin": [-1, "J"], "m": [1, "kg"], "v": [2, "m/s"] },
+    "Potentiel_energi": { "G": [1, "N"], "m": [1, "kg"], "M": [1, "kg"], "r": [-1, "m"], "E_pot": [-1, "J"] }
 }
