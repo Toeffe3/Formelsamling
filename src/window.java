@@ -42,7 +42,7 @@ public final class window extends javax.swing.JFrame {
         displayHeader = new javax.swing.JLabel();
         display = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jEditorPane1 = new javax.swing.JEditorPane();
+        formelDisplay = new javax.swing.JEditorPane();
         calculateHeader = new javax.swing.JLabel();
         calculator = new javax.swing.JPanel();
         value1 = new javax.swing.JTextField();
@@ -103,10 +103,10 @@ public final class window extends javax.swing.JFrame {
         display.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         display.setForeground(new java.awt.Color(0, 0, 0));
 
-        jEditorPane1.setBackground(new java.awt.Color(110, 136, 153));
-        jEditorPane1.setBorder(null);
-        jEditorPane1.setFont(new java.awt.Font("Cambria Math", 0, 18)); // NOI18N
-        jScrollPane2.setViewportView(jEditorPane1);
+        formelDisplay.setBackground(new java.awt.Color(110, 136, 153));
+        formelDisplay.setBorder(null);
+        formelDisplay.setFont(new java.awt.Font("Cambria Math", 0, 18)); // NOI18N
+        jScrollPane2.setViewportView(formelDisplay);
 
         org.jdesktop.layout.GroupLayout displayLayout = new org.jdesktop.layout.GroupLayout(display);
         display.setLayout(displayLayout);
@@ -143,7 +143,7 @@ public final class window extends javax.swing.JFrame {
                 value1ActionPerformed(evt);
             }
         });
-        calculator.add(value1, new org.netbeans.lib.awtextra.AbsoluteConstraints(185, 52, -1, -1));
+        calculator.add(value1, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 50, 90, -1));
 
         value2.setBackground(new java.awt.Color(110, 136, 153));
         value2.setFont(new java.awt.Font("Cambria Math", 0, 24)); // NOI18N
@@ -154,7 +154,7 @@ public final class window extends javax.swing.JFrame {
                 value2ActionPerformed(evt);
             }
         });
-        calculator.add(value2, new org.netbeans.lib.awtextra.AbsoluteConstraints(185, 111, -1, -1));
+        calculator.add(value2, new org.netbeans.lib.awtextra.AbsoluteConstraints(292, 110, 90, -1));
 
         value3.setBackground(new java.awt.Color(110, 136, 153));
         value3.setFont(new java.awt.Font("Cambria Math", 0, 24)); // NOI18N
@@ -165,7 +165,7 @@ public final class window extends javax.swing.JFrame {
                 value3ActionPerformed(evt);
             }
         });
-        calculator.add(value3, new org.netbeans.lib.awtextra.AbsoluteConstraints(282, 170, -1, -1));
+        calculator.add(value3, new org.netbeans.lib.awtextra.AbsoluteConstraints(292, 170, 90, -1));
 
         SIEnhed1.setBackground(new java.awt.Color(187, 187, 187));
         SIEnhed1.setFont(new java.awt.Font("Cambria Math", 0, 24)); // NOI18N
@@ -185,12 +185,12 @@ public final class window extends javax.swing.JFrame {
         unitLabel1.setBackground(new java.awt.Color(187, 187, 187));
         unitLabel1.setFont(new java.awt.Font("Cambria Math", 0, 24)); // NOI18N
         unitLabel1.setText("e =");
-        calculator.add(unitLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 52, -1, -1));
+        calculator.add(unitLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 50, -1, -1));
 
         unitLabel2.setBackground(new java.awt.Color(187, 187, 187));
         unitLabel2.setFont(new java.awt.Font("Cambria Math", 0, 24)); // NOI18N
         unitLabel2.setText("m =");
-        calculator.add(unitLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(136, 111, -1, -1));
+        calculator.add(unitLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 110, -1, -1));
 
         unitLabel3.setBackground(new java.awt.Color(187, 187, 187));
         unitLabel3.setFont(new java.awt.Font("Cambria Math", 0, 24)); // NOI18N
@@ -198,13 +198,13 @@ public final class window extends javax.swing.JFrame {
         calculator.add(unitLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(242, 170, -1, -1));
 
         unitSelect1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        calculator.add(unitSelect1, new org.netbeans.lib.awtextra.AbsoluteConstraints(243, 55, -1, -1));
+        calculator.add(unitSelect1, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 50, -1, -1));
 
         unitSelect2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        calculator.add(unitSelect2, new org.netbeans.lib.awtextra.AbsoluteConstraints(243, 114, -1, -1));
+        calculator.add(unitSelect2, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 110, -1, -1));
 
         unitSelect3.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        calculator.add(unitSelect3, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 173, -1, -1));
+        calculator.add(unitSelect3, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 170, -1, -1));
 
         org.jdesktop.layout.GroupLayout formelViewLayout = new org.jdesktop.layout.GroupLayout(formelView);
         formelView.setLayout(formelViewLayout);
@@ -292,27 +292,24 @@ public final class window extends javax.swing.JFrame {
         String selected = formelList.getModel().getElementAt(selectedIndex);
         String[] infomation = formler[selectedIndex].replaceAll("\"[ \\w]+\": ?\\{(.*?)\\},?","$1").split("^\".+?\": ?");
         for(String s : infomation) {
-            String [] su = s.replaceAll(" ?\"[ \\w]+\":","").split(",? (?!\")");
-            for (int i = 0; i < su.length; i++){
-                switch(i){
-                    case 0:
-                        SIEnhed1.setText(getSINameFromUnit(su[i].replaceAll("\\[(-?\\d+.?\\d*), \"(.*)\"\\]","$2")));
-                        break;
-                    
+            String[] su = s.replaceAll(" ?\"[ \\w]+\":","").split(",? (?!\")");
+            for(int i = 1; i < su.length; i++) {
+                String a = capitalize(getSINameFromUnit(su[i].replaceAll("\\[(-?\\d+.?\\d*), \"(.+?)\"\\]", "$2")));
+                switch(i) {
                     case 1:
-                        su[i].replaceAll("\\[(-?\\d+.?\\d*), \"(.*)\"\\]","$2");
-                        //SIEnhed2.setText();
+                        SIEnhed1.setText(a);
                         break;
-                    
-                    case 2:
-                        su[i].replaceAll("\\[(-?\\d+.?\\d*), \"(.*)\"\\]","$2");
-                        //SIEnhed3.setText();
+                    case 2: 
+                        SIEnhed2.setText(a);
+                        break;
+                    case 3: 
+                        SIEnhed3.setText(a);
                         break;
                 }
-                        
+                
             }
-            for(String t : s.replaceAll(" ?\"[ \\w]+\":","").split(",? (?!\")")) System.out.println(t.replaceAll("\\[(-?\\d+.?\\d*), \"(.*)\"\\]", "$1: $2"));
         }
+        formelDisplay.setText("");
     }//GEN-LAST:event_formelListValueChanged
     
     // Array med alle formlerne holdes public til sener brug af andre
@@ -420,6 +417,10 @@ public final class window extends javax.swing.JFrame {
         return "";
     }
     
+    public String capitalize(String s) {
+        return s.toUpperCase().charAt(0) + s.substring(1,s.length());
+    }
+    
     /**
      * Get the content of file
      * @param path Path to the file, can be relative or absolute
@@ -514,9 +515,9 @@ public final class window extends javax.swing.JFrame {
     private javax.swing.JPanel calculator;
     private javax.swing.JPanel display;
     private javax.swing.JLabel displayHeader;
+    private javax.swing.JEditorPane formelDisplay;
     private javax.swing.JList<String> formelList;
     private javax.swing.JPanel formelView;
-    private javax.swing.JEditorPane jEditorPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane scrollView;
     private javax.swing.JLabel unitLabel1;
