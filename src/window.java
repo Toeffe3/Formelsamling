@@ -301,12 +301,12 @@ public final class window extends javax.swing.JFrame {
                     
                     case 1:
                         su[i].replaceAll("\\[(-?\\d+.?\\d*), \"(.*)\"\\]","$2");
-                        SIEnhed2.setText();
+                        //SIEnhed2.setText();
                         break;
                     
                     case 2:
                         su[i].replaceAll("\\[(-?\\d+.?\\d*), \"(.*)\"\\]","$2");
-                        SIEnhed3.setText();
+                        //SIEnhed3.setText();
                         break;
                 }
                         
@@ -349,16 +349,17 @@ public final class window extends javax.swing.JFrame {
                 } catch (Throwable ex) {}
             }
             
-//            for(int i = 0; i < navne.length; i++) {
-//                try {
-//                    String t = formler[i].replaceAll("\"\\w+\": ?\\{(.+?)\\},?", "$1");
-//                    //for (String[] a : repeatExtractAllGroups(t, "\"(.+?)\"", 1)) System.out.println(a[0]+": "+a[1]);
-//                    System.out.println("\n");
-//                } catch (Throwable ex) {}
-//            }
+            for(int i = 0; i < navne.length; i++) {
+                try {
+                    String t = formler[i].replaceAll("\"\\w+\": ?\\{(.+?)\\},?", "$1");
+                    repeatExtractAllGroups(t, ",", 2);
+                    //for (String[] a : repeatExtractAllGroups(t, "\"(.+?)\"", 1)) System.out.println(a[0]+": "+a[1]);
+                    //System.out.println("\n");
+                } catch (Throwable ex) {}
+            }
             
-            for(Object r : getSIPrefixListFromUnit("km"))
-                System.out.println((String)r + ": " + getSIValue((String)r));
+            /*for(Object r : getSIPrefixListFromUnit("km"))
+                System.out.println((String)r + ": " + getSIValue((String)r));*/
             
         } catch (IOException ex) {
             Logger.getLogger(window.class.getName()).log(Level.SEVERE, null, ex);
@@ -396,7 +397,7 @@ public final class window extends javax.swing.JFrame {
     
     /**
      * Will return all available the-same-unit's prefix-versions
-     * @param unit Aany non- or prefixed unit
+     * @param unit any non- or prefixed unit
      * @return List of prefixed units of same unit
      * @return null if non is available
      */
@@ -406,6 +407,17 @@ public final class window extends javax.swing.JFrame {
                 if (t[0] != null && !t[0].equals(s[0][0]) && t[0].equals(unit))
                     return getSIPrefixList(s[0][0]);
         return null;
+    }
+    
+    private String getSINameFromUnit(String unit) {
+        for(String s : enheder) {
+            String[] a = s.replaceAll("\"(.+?)\": ?\\{(.+?)\\},?", "$1@$2").split("@");
+            if(a.length > 1)
+                for (String t : a[1].split(", ?")) 
+                    if(t.split(": ?")[0].replaceAll("\"","").equals(unit))
+                        return a[0];
+        }
+        return "";
     }
     
     /**
@@ -447,15 +459,18 @@ public final class window extends javax.swing.JFrame {
      * @param Groups Amount of groups to include, cannot be grater than the actually amount of RegExp-groups
      * @return 2-Dimentional array, inner array is the groups of each match (outer)
      */
-//    public Object[][] repeatExtractAllGroups(String s, String RegExp, int Groups) {
+    public Object[][] repeatExtractAllGroups(String s, String RegExp, int Groups) {
+        String temp = s, reg = "";
+        
+        //System.out.println(s.replaceAll(RegExp, ""));
 //        try {
 //            ArrayList<Object[]> temp = new ArrayList<>();
 //            
 //            temp.add(extractAllGroups(s, RegExp, Groups));
 //            return temp.toArray();
 //        } catch (Throwable ex) {}
-//        return null;
-//    }
+        return null;
+    }
     
     /**
      * @param args the command line arguments
