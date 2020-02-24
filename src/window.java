@@ -1,20 +1,29 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 
 /**
- *
- * @author dense
+ * Et program der gennem grafisk brugerflade tillader brugeren at slå formler op
+ * og lave udregninger med dem.
+ * @version 1.0 
+ * @author Frederik Dam
+ * @author Victor Jacobsen
  */
-public class window extends javax.swing.JFrame {
+public final class window extends javax.swing.JFrame {
 
     /**
      * Creates new form window
      */
     public window() {
         initComponents();
+        // Call the initial loading of varibles and dynamic content 
+        load();
     }
 
     /**
@@ -26,9 +35,16 @@ public class window extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jList1 = new javax.swing.JList<>();
-        jPanel2 = new javax.swing.JPanel();
+        background = new javax.swing.JPanel();
+        scrollView = new javax.swing.JScrollPane();
+        formelList = new javax.swing.JList<>();
+        formelView = new javax.swing.JPanel();
+        displayHeader = new javax.swing.JLabel();
+        display = new javax.swing.JPanel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        jEditorPane1 = new javax.swing.JEditorPane();
+        calculateHeader = new javax.swing.JLabel();
+        calculator = new javax.swing.JPanel();
         value1 = new javax.swing.JTextField();
         value2 = new javax.swing.JTextField();
         value3 = new javax.swing.JTextField();
@@ -41,37 +57,82 @@ public class window extends javax.swing.JFrame {
         unitSelect1 = new javax.swing.JComboBox<>();
         unitSelect2 = new javax.swing.JComboBox<>();
         unitSelect3 = new javax.swing.JComboBox<>();
-        jPanel3 = new javax.swing.JPanel();
-        jPanel1 = new javax.swing.JPanel();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        jEditorPane1 = new javax.swing.JEditorPane();
-        jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Formelsamling");
-        setBackground(new java.awt.Color(255, 204, 51));
-        setMaximumSize(new java.awt.Dimension(700, 500));
-        setMinimumSize(new java.awt.Dimension(700, 500));
-        setResizable(false);
-        setSize(new java.awt.Dimension(700, 500));
-        getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        setMaximumSize(new java.awt.Dimension(1200, 1000));
+        setMinimumSize(new java.awt.Dimension(700, 490));
+        setPreferredSize(new java.awt.Dimension(700, 490));
+        setSize(new java.awt.Dimension(700, 490));
 
-        jList1.setBackground(new java.awt.Color(110, 136, 153));
-        jList1.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-        jList1.setFont(new java.awt.Font("Cambria Math", 1, 24)); // NOI18N
-        jList1.setModel(new javax.swing.AbstractListModel<String>() {
+        background.setBackground(new java.awt.Color(110, 136, 153));
+
+        scrollView.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+        scrollView.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+
+        formelList.setBackground(new java.awt.Color(110, 136, 153));
+        formelList.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        formelList.setFont(new java.awt.Font("Cambria Math", 1, 24)); // NOI18N
+        formelList.setForeground(new java.awt.Color(0, 0, 0));
+        formelList.setModel(new javax.swing.AbstractListModel<String>() {
             String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
             public int getSize() { return strings.length; }
             public String getElementAt(int i) { return strings[i]; }
         });
-        jList1.setAlignmentX(10.0F);
-        jScrollPane1.setViewportView(jList1);
+        formelList.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        formelList.setAlignmentX(10.0F);
+        formelList.setInheritsPopupMenu(true);
+        formelList.setMaximumSize(new java.awt.Dimension(1000, 10000));
+        formelList.setMinimumSize(new java.awt.Dimension(0, 0));
+        formelList.setName(""); // NOI18N
+        formelList.setPreferredSize(null);
+        formelList.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
+            public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
+                formelListValueChanged(evt);
+            }
+        });
+        scrollView.setViewportView(formelList);
 
-        getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 190, 460));
+        formelView.setBackground(null);
 
-        jPanel2.setBackground(new java.awt.Color(110, 136, 153));
-        jPanel2.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        displayHeader.setBackground(new java.awt.Color(187, 187, 187));
+        displayHeader.setFont(new java.awt.Font("Cambria Math", 0, 24)); // NOI18N
+        displayHeader.setText("Formel");
+
+        display.setBackground(new java.awt.Color(110, 136, 153));
+        display.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        display.setForeground(new java.awt.Color(0, 0, 0));
+
+        jEditorPane1.setBackground(new java.awt.Color(110, 136, 153));
+        jEditorPane1.setBorder(null);
+        jEditorPane1.setFont(new java.awt.Font("Cambria Math", 0, 18)); // NOI18N
+        jScrollPane2.setViewportView(jEditorPane1);
+
+        org.jdesktop.layout.GroupLayout displayLayout = new org.jdesktop.layout.GroupLayout(display);
+        display.setLayout(displayLayout);
+        displayLayout.setHorizontalGroup(
+            displayLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(displayLayout.createSequentialGroup()
+                .addContainerGap()
+                .add(jScrollPane2, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 454, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        displayLayout.setVerticalGroup(
+            displayLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(displayLayout.createSequentialGroup()
+                .addContainerGap()
+                .add(jScrollPane2, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 94, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+
+        calculateHeader.setBackground(new java.awt.Color(187, 187, 187));
+        calculateHeader.setFont(new java.awt.Font("Cambria Math", 0, 24)); // NOI18N
+        calculateHeader.setText("Beregn");
+
+        calculator.setBackground(new java.awt.Color(110, 136, 153));
+        calculator.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        calculator.setForeground(new java.awt.Color(0, 0, 0));
+        calculator.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         value1.setBackground(new java.awt.Color(110, 136, 153));
         value1.setFont(new java.awt.Font("Cambria Math", 0, 24)); // NOI18N
@@ -82,6 +143,7 @@ public class window extends javax.swing.JFrame {
                 value1ActionPerformed(evt);
             }
         });
+        calculator.add(value1, new org.netbeans.lib.awtextra.AbsoluteConstraints(185, 52, -1, -1));
 
         value2.setBackground(new java.awt.Color(110, 136, 153));
         value2.setFont(new java.awt.Font("Cambria Math", 0, 24)); // NOI18N
@@ -92,6 +154,7 @@ public class window extends javax.swing.JFrame {
                 value2ActionPerformed(evt);
             }
         });
+        calculator.add(value2, new org.netbeans.lib.awtextra.AbsoluteConstraints(185, 111, -1, -1));
 
         value3.setBackground(new java.awt.Color(110, 136, 153));
         value3.setFont(new java.awt.Font("Cambria Math", 0, 24)); // NOI18N
@@ -102,158 +165,112 @@ public class window extends javax.swing.JFrame {
                 value3ActionPerformed(evt);
             }
         });
+        calculator.add(value3, new org.netbeans.lib.awtextra.AbsoluteConstraints(282, 170, -1, -1));
 
         SIEnhed1.setBackground(new java.awt.Color(187, 187, 187));
         SIEnhed1.setFont(new java.awt.Font("Cambria Math", 0, 24)); // NOI18N
         SIEnhed1.setText("Energi [J]");
+        calculator.add(SIEnhed1, new org.netbeans.lib.awtextra.AbsoluteConstraints(32, 52, -1, -1));
 
         SIEnhed2.setBackground(new java.awt.Color(187, 187, 187));
         SIEnhed2.setFont(new java.awt.Font("Cambria Math", 0, 24)); // NOI18N
         SIEnhed2.setText("Masse [J]");
+        calculator.add(SIEnhed2, new org.netbeans.lib.awtextra.AbsoluteConstraints(32, 111, -1, -1));
 
         SIEnhed3.setBackground(new java.awt.Color(187, 187, 187));
         SIEnhed3.setFont(new java.awt.Font("Cambria Math", 0, 24)); // NOI18N
         SIEnhed3.setText("Lysets hastighed [J]");
+        calculator.add(SIEnhed3, new org.netbeans.lib.awtextra.AbsoluteConstraints(32, 170, -1, -1));
 
         unitLabel1.setBackground(new java.awt.Color(187, 187, 187));
         unitLabel1.setFont(new java.awt.Font("Cambria Math", 0, 24)); // NOI18N
         unitLabel1.setText("e =");
+        calculator.add(unitLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 52, -1, -1));
 
         unitLabel2.setBackground(new java.awt.Color(187, 187, 187));
         unitLabel2.setFont(new java.awt.Font("Cambria Math", 0, 24)); // NOI18N
         unitLabel2.setText("m =");
+        calculator.add(unitLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(136, 111, -1, -1));
 
         unitLabel3.setBackground(new java.awt.Color(187, 187, 187));
         unitLabel3.setFont(new java.awt.Font("Cambria Math", 0, 24)); // NOI18N
         unitLabel3.setText("c =");
+        calculator.add(unitLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(242, 170, -1, -1));
 
         unitSelect1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        calculator.add(unitSelect1, new org.netbeans.lib.awtextra.AbsoluteConstraints(243, 55, -1, -1));
 
         unitSelect2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        calculator.add(unitSelect2, new org.netbeans.lib.awtextra.AbsoluteConstraints(243, 114, -1, -1));
 
         unitSelect3.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        calculator.add(unitSelect3, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 173, -1, -1));
 
-        org.jdesktop.layout.GroupLayout jPanel2Layout = new org.jdesktop.layout.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(jPanel2Layout.createSequentialGroup()
-                .add(30, 30, 30)
-                .add(jPanel2Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                    .add(jPanel2Layout.createSequentialGroup()
-                        .add(SIEnhed3)
-                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
-                        .add(unitLabel3)
-                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                        .add(value3, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                        .add(unitSelect3, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
-                    .add(jPanel2Layout.createSequentialGroup()
-                        .add(jPanel2Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING, false)
-                            .add(jPanel2Layout.createSequentialGroup()
-                                .add(SIEnhed2)
-                                .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
-                                .add(unitLabel2)
-                                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                                .add(value2, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
-                            .add(jPanel2Layout.createSequentialGroup()
-                                .add(SIEnhed1)
-                                .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
-                                .add(unitLabel1)
-                                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .add(value1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)))
-                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                        .add(jPanel2Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                            .add(unitSelect1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                            .add(unitSelect2, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))))
-                .add(63, 63, Short.MAX_VALUE))
+        org.jdesktop.layout.GroupLayout formelViewLayout = new org.jdesktop.layout.GroupLayout(formelView);
+        formelView.setLayout(formelViewLayout);
+        formelViewLayout.setHorizontalGroup(
+            formelViewLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(formelViewLayout.createSequentialGroup()
+                .add(0, 0, 0)
+                .add(formelViewLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                    .add(calculator, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 470, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                    .add(displayHeader)
+                    .add(calculateHeader)
+                    .add(display, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                .add(0, 0, 0))
         );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(jPanel2Layout.createSequentialGroup()
-                .add(50, 50, 50)
-                .add(jPanel2Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
-                    .add(value1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                    .add(SIEnhed1)
-                    .add(unitLabel1)
-                    .add(unitSelect1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
-                .add(30, 30, 30)
-                .add(jPanel2Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
-                    .add(SIEnhed2)
-                    .add(unitLabel2)
-                    .add(value2, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                    .add(unitSelect2, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
-                .add(30, 30, 30)
-                .add(jPanel2Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
-                    .add(value3, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                    .add(SIEnhed3)
-                    .add(unitLabel3)
-                    .add(unitSelect3, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(49, Short.MAX_VALUE))
-        );
-
-        getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 200, 470, 250));
-
-        jPanel3.setBackground(new java.awt.Color(110, 136, 153));
-
-        jPanel1.setBackground(new java.awt.Color(110, 136, 153));
-        jPanel1.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-
-        jEditorPane1.setBackground(new java.awt.Color(110, 136, 153));
-        jEditorPane1.setBorder(null);
-        jEditorPane1.setFont(new java.awt.Font("Cambria Math", 0, 18)); // NOI18N
-        jScrollPane2.setViewportView(jEditorPane1);
-
-        org.jdesktop.layout.GroupLayout jPanel1Layout = new org.jdesktop.layout.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .add(jScrollPane2, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 454, Short.MAX_VALUE)
-                .addContainerGap())
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .add(jScrollPane2, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 94, Short.MAX_VALUE)
-                .addContainerGap())
-        );
-
-        jLabel1.setBackground(new java.awt.Color(187, 187, 187));
-        jLabel1.setFont(new java.awt.Font("Cambria Math", 0, 24)); // NOI18N
-        jLabel1.setText("Beregn");
-
-        jLabel2.setBackground(new java.awt.Color(187, 187, 187));
-        jLabel2.setFont(new java.awt.Font("Cambria Math", 0, 24)); // NOI18N
-        jLabel2.setText("Formel");
-
-        org.jdesktop.layout.GroupLayout jPanel3Layout = new org.jdesktop.layout.GroupLayout(jPanel3);
-        jPanel3.setLayout(jPanel3Layout);
-        jPanel3Layout.setHorizontalGroup(
-            jPanel3Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(org.jdesktop.layout.GroupLayout.TRAILING, jPanel3Layout.createSequentialGroup()
-                .addContainerGap(210, Short.MAX_VALUE)
-                .add(jPanel3Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                    .add(jLabel2)
-                    .add(jLabel1)
-                    .add(jPanel1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
-                .add(20, 20, 20))
-        );
-        jPanel3Layout.setVerticalGroup(
-            jPanel3Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(jPanel3Layout.createSequentialGroup()
-                .add(13, 13, 13)
-                .add(jLabel2)
+        formelViewLayout.setVerticalGroup(
+            formelViewLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(formelViewLayout.createSequentialGroup()
+                .add(0, 0, 0)
+                .add(displayHeader)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(jPanel1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .add(display, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
-                .add(jLabel1)
-                .addContainerGap(301, Short.MAX_VALUE))
+                .add(calculateHeader)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                .add(calculator, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 223, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .add(0, 0, 0))
         );
 
-        getContentPane().add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 700, 500));
+        org.jdesktop.layout.GroupLayout backgroundLayout = new org.jdesktop.layout.GroupLayout(background);
+        background.setLayout(backgroundLayout);
+        backgroundLayout.setHorizontalGroup(
+            backgroundLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(org.jdesktop.layout.GroupLayout.TRAILING, backgroundLayout.createSequentialGroup()
+                .addContainerGap()
+                .add(scrollView, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 206, Short.MAX_VALUE)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
+                .add(formelView, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+        );
+        backgroundLayout.setVerticalGroup(
+            backgroundLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(backgroundLayout.createSequentialGroup()
+                .addContainerGap()
+                .add(backgroundLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                    .add(backgroundLayout.createSequentialGroup()
+                        .add(formelView, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                        .add(0, 1, Short.MAX_VALUE))
+                    .add(scrollView))
+                .addContainerGap())
+        );
+
+        org.jdesktop.layout.GroupLayout layout = new org.jdesktop.layout.GroupLayout(getContentPane());
+        getContentPane().setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(layout.createSequentialGroup()
+                .add(0, 0, 0)
+                .add(background, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(org.jdesktop.layout.GroupLayout.TRAILING, layout.createSequentialGroup()
+                .add(0, 0, 0)
+                .add(background, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .add(0, 0, 0))
+        );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -270,6 +287,176 @@ public class window extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_value3ActionPerformed
 
+    private void formelListValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_formelListValueChanged
+        int selectedIndex = formelList.getSelectedIndex();
+        String selected = formelList.getModel().getElementAt(selectedIndex);
+        String[] infomation = formler[selectedIndex].replaceAll("\"[ \\w]+\": ?\\{(.*?)\\},?","$1").split("^\".+?\": ?");
+        for(String s : infomation) {
+            String [] su = s.replaceAll(" ?\"[ \\w]+\":","").split(",? (?!\")");
+            for (int i = 0; i < su.length; i++){
+                switch(i){
+                    case 0:
+                        SIEnhed1.setText(getSINameFromUnit(su[i].replaceAll("\\[(-?\\d+.?\\d*), \"(.*)\"\\]","$2")));
+                        break;
+                    
+                    case 1:
+                        su[i].replaceAll("\\[(-?\\d+.?\\d*), \"(.*)\"\\]","$2");
+                        SIEnhed2.setText();
+                        break;
+                    
+                    case 2:
+                        su[i].replaceAll("\\[(-?\\d+.?\\d*), \"(.*)\"\\]","$2");
+                        SIEnhed3.setText();
+                        break;
+                }
+                        
+            }
+            for(String t : s.replaceAll(" ?\"[ \\w]+\":","").split(",? (?!\")")) System.out.println(t.replaceAll("\\[(-?\\d+.?\\d*), \"(.*)\"\\]", "$1: $2"));
+        }
+    }//GEN-LAST:event_formelListValueChanged
+    
+    // Array med alle formlerne holdes public til sener brug af andre
+    // funktioner/classes.
+    public String[] formler, enheder;
+    private String[][][] si;
+    
+    /**
+     * Load content that needs to be loaded at startup, including loading json
+     * files.
+     */
+    private void load() {
+        try {
+            String formlerString = window.getFileContent(".\\src\\formler.json"),
+                   enhederString = window.getFileContent(".\\src\\enheder.json");
+
+            // Initilize equations
+            formler = formlerString.replaceAll("^\\{|  |\\}\\n?$", "").split("\n");
+            String[] navne = new String[formler.length];
+            for(int i = 0; i < navne.length; i++) navne[i] = formler[i].replaceAll("\"(\\w+)\".+","$1").replaceAll("_"," ");
+            formelList.setListData(navne);
+            
+            // Initilize units
+            enheder = enhederString.replaceAll("^\\{|  |\\}\\n?$", "").split("\n");
+            si = new String[enheder.length][10][2]; // TODO: Optimer size
+            for(int i = 0; i < si.length; i++) {
+                try {
+                    String[] r;
+                    r = (String[]) extractAllGroups(enheder[i], "\"(.+?)\": ?\\{(.+),?\\}",2);
+                    si[i][0][0] = r[0];
+                    String[] s = r[1].split(", ?");
+                    for (int j = 0; j < s.length; j++)
+                        si[i][j+1] = s[j].replaceAll("\"(.+?)\"", "$1").split(": ?");
+                } catch (Throwable ex) {}
+            }
+            
+//            for(int i = 0; i < navne.length; i++) {
+//                try {
+//                    String t = formler[i].replaceAll("\"\\w+\": ?\\{(.+?)\\},?", "$1");
+//                    //for (String[] a : repeatExtractAllGroups(t, "\"(.+?)\"", 1)) System.out.println(a[0]+": "+a[1]);
+//                    System.out.println("\n");
+//                } catch (Throwable ex) {}
+//            }
+            
+            for(Object r : getSIPrefixListFromUnit("km"))
+                System.out.println((String)r + ": " + getSIValue((String)r));
+            
+        } catch (IOException ex) {
+            Logger.getLogger(window.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    /**
+     * Get the factor no greater or less than (int)
+     * @param unit Any available unit
+     * @return The factor of given unit
+     * @return 0 if non is available
+     */
+    private int getSIValue(String unit) {
+        for (String[][] s : si)
+            for (String[] t : s)
+                if (t[0] != null && !t[0].equals(s[0][0]) && t[0].equals(unit))
+                    return Integer.parseInt(t[1]);
+        return 0;
+    }
+    
+    /**
+     * Will return all available prefixed units
+     * @param name SI-name of unit
+     * @return List of prefixed units of SI-name
+     * @return null if non is available
+     */
+    private Object[] getSIPrefixList(String name) {
+        ArrayList<String> list = new ArrayList<>();
+        for (String[][] s : si)
+            for (String[] t : s)
+                if (t[0] != null && !t[0].equals(s[0][0]) && s[0][0].equals(name))
+                    list.add(t[0]);
+        return list.toArray();
+    }
+    
+    /**
+     * Will return all available the-same-unit's prefix-versions
+     * @param unit Aany non- or prefixed unit
+     * @return List of prefixed units of same unit
+     * @return null if non is available
+     */
+    private Object[] getSIPrefixListFromUnit(String unit) {
+        for (String[][] s : si)
+            for (String[] t : s)
+                if (t[0] != null && !t[0].equals(s[0][0]) && t[0].equals(unit))
+                    return getSIPrefixList(s[0][0]);
+        return null;
+    }
+    
+    /**
+     * Get the content of file
+     * @param path Path to the file, can be relative or absolute
+     * @return String of file content
+     * @throws FileNotFoundException If file does not exist
+     * @throws IOException
+     */
+    public static String getFileContent(String path) throws FileNotFoundException, IOException {
+        File file = new File(path);
+        BufferedReader br = new BufferedReader(new FileReader(file));
+        String st, cnt = "";
+        while((st=br.readLine()) != null) cnt += st+"\n";
+        return cnt;
+    }
+    
+    /**
+     * Matches a full-match regular expression but only returns the group(s).
+     * @param s String
+     * @param RegExp Regular Expression
+     * @param Groups Amount of groups to include, cannot be grater than the actually amount of RegExp-groups
+     * @return Array of strings for each group
+     * @throws Throwable If no match was found
+     */
+    public Object[] extractAllGroups(String s, String RegExp, int Groups) throws Throwable {
+        String replace = "";
+        for(int i = 0; i < Groups; i++) replace+="$"+(i+1)+"!";
+        replace = replace.substring(0, replace.length()-1);
+        s = s.replaceAll(RegExp, replace);
+        if (s.isEmpty()) throw new Throwable("No match");
+        return s.split("!");
+    }
+    
+    /**
+     * Matches any part which the regular expression applies and returns all groups of each part-match.
+     * @param s String
+     * @param RegExp Regular Expression
+     * @param Groups Amount of groups to include, cannot be grater than the actually amount of RegExp-groups
+     * @return 2-Dimentional array, inner array is the groups of each match (outer)
+     */
+//    public Object[][] repeatExtractAllGroups(String s, String RegExp, int Groups) {
+//        try {
+//            ArrayList<Object[]> temp = new ArrayList<>();
+//            
+//            temp.add(extractAllGroups(s, RegExp, Groups));
+//            return temp.toArray();
+//        } catch (Throwable ex) {}
+//        return null;
+//    }
+    
     /**
      * @param args the command line arguments
      */
@@ -298,10 +485,8 @@ public class window extends javax.swing.JFrame {
         //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new window().setVisible(true);
-            }
+        java.awt.EventQueue.invokeLater(() -> {
+            new window().setVisible(true);
         });
     }
 
@@ -309,15 +494,16 @@ public class window extends javax.swing.JFrame {
     private javax.swing.JLabel SIEnhed1;
     private javax.swing.JLabel SIEnhed2;
     private javax.swing.JLabel SIEnhed3;
+    private javax.swing.JPanel background;
+    private javax.swing.JLabel calculateHeader;
+    private javax.swing.JPanel calculator;
+    private javax.swing.JPanel display;
+    private javax.swing.JLabel displayHeader;
+    private javax.swing.JList<String> formelList;
+    private javax.swing.JPanel formelView;
     private javax.swing.JEditorPane jEditorPane1;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JList<String> jList1;
-    private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
-    private javax.swing.JPanel jPanel3;
-    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane scrollView;
     private javax.swing.JLabel unitLabel1;
     private javax.swing.JLabel unitLabel2;
     private javax.swing.JLabel unitLabel3;

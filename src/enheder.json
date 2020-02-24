@@ -1,4 +1,25 @@
 {
-    "J": {"J": 1, "kJ": 1000},
-    "m": {"m": 1, "km": 1000}
+    "energi": {"J": 1, "kJ": 1000},
+    "distance": {"m": 1, "km": 1000, "dm":0.1 ,"cm": 0.01, "mm": 0.001},
+    "tid": {"s": 1},
+    "hastighed": {"m/s": 1, "km/t": 3.6},
+    "masse": {"kg": 1, "g": 0.001, "ton": 1000},
+    "lysetshastighed": {"c": 299792458},
+    "kraft": {"N": 1, "kN": 1000},
+    "acceleration": {"m/s²": 1},
+    "impuls": {"kg*m/s": 1},
+    "tyngdeacceleration": {"N/kg": 1},
+    "tryk": {"Pa": 1, "kPa": 1000},
+    "areal": {"m²": 1},
+    "volumen": {"m³": 1},
+    "mol": {"mol": 1},
+    "temperatur": {"K": 1},
+    "gaskonstant": {"R": 8.3145},
+    "frekvens": {"Hz": 1, "GHz": 1000000000, "MHz": 1000000},
+    "bølgelængde": {"m": 1, "micro_m": 0.000001},
+    "coulomb": {"C": 1},
+    "strømstyrke": {"A": 1},
+    "spændingsforskel": {"V": 1},
+    "resistans": {"OMEGA": 1},
+    "effekt": {"W": 1}
 }
