@@ -309,7 +309,38 @@ public final class window extends javax.swing.JFrame {
                 
             }
         }
-        formelDisplay.setText("");
+        String[] parts = formler[selectedIndex].replaceAll("\"\\w+\": \\{(.+?)\\},?", "$1").split("\\],");
+        String[] tempparts = new String[parts.length];
+        String temp = "";
+        for(int i = 0; i < tempparts.length; i++) tempparts[i] = parts[i].replaceAll("\"(\\w+)\": ?\\[(.+?), ?\".+?\"\\]? ?", "$1^$2");
+        for(String t : tempparts) {
+            temp += t+"=";
+            for(String s : tempparts)
+                if(!t.equals(s)) temp += s;
+            temp += "\n";
+        }
+        temp = temp.replaceAll("= ", "=");
+        temp = temp.replaceAll("(.+?)\\^-1=(.+)", "$1=$2");
+        temp = temp.replaceAll("(.+?)\\^1=(.+)", "$1=1/($2)");
+        temp = temp.replaceAll("(\\w+)\\^1", "$1");
+        temp = temp.replaceAll("(\\w+)\\^-1 (\\w+)\\^-1", "1/($1$2)");
+        temp = temp.replaceAll("(\\w+)\\^-(\\d+) (\\w+)\\^-(\\d+)", "($2/$1)*($4/$3)");
+        temp = temp.replaceAll("(\\w+) (\\w+)\\^-1", "($1/$2)");
+        temp = temp.replaceAll("(\\w+) (\\w+)\\^-(\\d+)", "($1/$2^$3)");
+        temp = temp.replaceAll("(\\w+)\\^-1 (\\w+)", "($2/$1)");
+        temp = temp.replaceAll("(\\w+)\\^-(\\d+) (\\w+)", "($3/$1^$2)");
+        temp = temp.replaceAll("(\\w+)\\^-1=(.+)", "$1=1/$2");
+        temp = temp.replaceAll(" (.+?)=", "$1=");
+        temp = temp.replaceAll("1/\\(1/(.+?)\\)", "$1");
+        temp = temp.replaceAll(" ", "*");
+        temp = temp.replaceAll("\\(\\((.+?)\\)\\)", "($1)");
+        temp = temp.replaceAll("1/(\\w+)\\*(\\w+)", "$2/$1");
+        temp = temp.replaceAll("1/\\((\\w+)/(\\w+)\\)", "$2/$1");
+        temp = temp.replaceAll("=\\((\\w+/\\w+)\\)", "=$1");
+        
+        temp = insertGreek(temp);
+        
+        formelDisplay.setText(temp);
     }//GEN-LAST:event_formelListValueChanged
     
     // Array med alle formlerne holdes public til sener brug af andre
@@ -327,7 +358,7 @@ public final class window extends javax.swing.JFrame {
                    enhederString = window.getFileContent(".\\src\\enheder.json");
 
             // Initilize equations
-            formler = formlerString.replaceAll("^\\{|  |\\}\\n?$", "").split("\n");
+            formler = formlerString.replaceAll("^\\{\n|  |\\}\\n?$", "").split("\n");
             String[] navne = new String[formler.length];
             for(int i = 0; i < navne.length; i++) navne[i] = formler[i].replaceAll("\"(\\w+)\".+","$1").replaceAll("_"," ");
             formelList.setListData(navne);
@@ -361,6 +392,18 @@ public final class window extends javax.swing.JFrame {
         } catch (IOException ex) {
             Logger.getLogger(window.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+    
+    private String insertGreek(String s) {
+        String[] greek = {
+            "LAMBDA", "λ",
+            "RHO", "ρ",
+            "F_t", "Fₜ",
+            "KONSTANT", ""
+        };
+        for(int i = 0; i < greek.length; i+=2)
+            s=s.replaceAll(greek[i], greek[i+1]);
+        return s;
     }
     
     /**
@@ -418,7 +461,8 @@ public final class window extends javax.swing.JFrame {
     }
     
     public String capitalize(String s) {
-        return s.toUpperCase().charAt(0) + s.substring(1,s.length());
+        if(s.length() > 0) return s.toUpperCase().charAt(0) + s.substring(1,s.length());
+        else return "";
     }
     
     /**
