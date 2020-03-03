@@ -1,11 +1,7 @@
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.util.logging.*;
+import javax.script.*;
 
 
 /**
@@ -296,15 +292,9 @@ public final class window extends javax.swing.JFrame {
             for(int i = 1; i < su.length; i++) {
                 String a = capitalize(getSINameFromUnit(su[i].replaceAll("\\[(-?\\d+.?\\d*), \"(.+?)\"\\]", "$2")));
                 switch(i) {
-                    case 1:
-                        SIEnhed1.setText(a);
-                        break;
-                    case 2: 
-                        SIEnhed2.setText(a);
-                        break;
-                    case 3: 
-                        SIEnhed3.setText(a);
-                        break;
+                    case 1: SIEnhed1.setText(a); break;
+                    case 2: SIEnhed2.setText(a); break;
+                    case 3: SIEnhed3.setText(a); break;
                 }
                 
             }
@@ -312,11 +302,13 @@ public final class window extends javax.swing.JFrame {
         String[] parts = formler[selectedIndex].replaceAll("\"\\w+\": \\{(.+?)\\},?", "$1").split("\\],");
         String[] tempparts = new String[parts.length];
         String temp = "";
-        for(int i = 0; i < tempparts.length; i++) tempparts[i] = parts[i].replaceAll("\"(\\w+)\": ?\\[(.+?), ?\".+?\"\\]? ?", "$1^$2");
+        for(int i = 0; i < tempparts.length; i++)
+            tempparts[i] = parts[i].replaceAll("\"(\\w+)\": ?\\[(.+?), ?\".+?\"\\]? ?", "$1^$2");
         for(String t : tempparts) {
             temp += t+"=";
             for(String s : tempparts)
-                if(!t.equals(s)) temp += s;
+                if(!t.equals(s))
+                    temp += s;
             temp += "\n";
         }
         temp = temp.replaceAll("= ", "=");
@@ -357,10 +349,16 @@ public final class window extends javax.swing.JFrame {
             String formlerString = window.getFileContent(".\\src\\formler.json"),
                    enhederString = window.getFileContent(".\\src\\enheder.json");
 
-            // Initilize equations
+            try {
+                JSONObject o = new JSONObject(formlerString);
+            } catch (ScriptException ex) {
+                Logger.getLogger(window.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            
             formler = formlerString.replaceAll("^\\{\n|  |\\}\\n?$", "").split("\n");
             String[] navne = new String[formler.length];
-            for(int i = 0; i < navne.length; i++) navne[i] = formler[i].replaceAll("\"(\\w+)\".+","$1").replaceAll("_"," ");
+            for(int i = 0; i < navne.length; i++)
+                navne[i] = formler[i].replaceAll("\"(\\w+)\".+","$1").replaceAll("_"," ");
             formelList.setListData(navne);
             
             // Initilize units
@@ -376,18 +374,6 @@ public final class window extends javax.swing.JFrame {
                         si[i][j+1] = s[j].replaceAll("\"(.+?)\"", "$1").split(": ?");
                 } catch (Throwable ex) {}
             }
-            
-            for(int i = 0; i < navne.length; i++) {
-                try {
-                    String t = formler[i].replaceAll("\"\\w+\": ?\\{(.+?)\\},?", "$1");
-                    repeatExtractAllGroups(t, ",", 2);
-                    //for (String[] a : repeatExtractAllGroups(t, "\"(.+?)\"", 1)) System.out.println(a[0]+": "+a[1]);
-                    //System.out.println("\n");
-                } catch (Throwable ex) {}
-            }
-            
-            /*for(Object r : getSIPrefixListFromUnit("km"))
-                System.out.println((String)r + ": " + getSIValue((String)r));*/
             
         } catch (IOException ex) {
             Logger.getLogger(window.class.getName()).log(Level.SEVERE, null, ex);
@@ -495,26 +481,6 @@ public final class window extends javax.swing.JFrame {
         s = s.replaceAll(RegExp, replace);
         if (s.isEmpty()) throw new Throwable("No match");
         return s.split("!");
-    }
-    
-    /**
-     * Matches any part which the regular expression applies and returns all groups of each part-match.
-     * @param s String
-     * @param RegExp Regular Expression
-     * @param Groups Amount of groups to include, cannot be grater than the actually amount of RegExp-groups
-     * @return 2-Dimentional array, inner array is the groups of each match (outer)
-     */
-    public Object[][] repeatExtractAllGroups(String s, String RegExp, int Groups) {
-        String temp = s, reg = "";
-        
-        //System.out.println(s.replaceAll(RegExp, ""));
-//        try {
-//            ArrayList<Object[]> temp = new ArrayList<>();
-//            
-//            temp.add(extractAllGroups(s, RegExp, Groups));
-//            return temp.toArray();
-//        } catch (Throwable ex) {}
-        return null;
     }
     
     /**
