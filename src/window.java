@@ -393,7 +393,11 @@ public final class window extends javax.swing.JFrame {
             Logger.getLogger(window.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
+    /**
+     * inputs symbols in the equations thus using the correct symbols for the units
+     * @param s
+     * @return Symbols for the equation
+     */
     private String insertGreek(String s) {
         String[] greek = {
             "LAMBDA", "λ",
@@ -449,6 +453,11 @@ public final class window extends javax.swing.JFrame {
         return null;
     }
     
+    /**
+     * Finds the SI-units for the selected unit if masse is input then well recieve kg
+     * @param unit
+     * @return SI-unit name
+     */
     private String getSINameFromUnit(String unit) {
         for(String s : enheder) {
             String[] a = s.replaceAll("\"(.+?)\": ?\\{(.+?)\\},?", "$1@$2").split("@");
