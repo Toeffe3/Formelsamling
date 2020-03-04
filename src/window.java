@@ -432,9 +432,8 @@ public final class window extends javax.swing.JFrame {
             lastChanged[1] = nth;
         }
         
-        System.out.println(unitLabel1.getText().replace("=",""));
-        System.out.println(unitLabel2.getText().replace("=",""));
-        System.out.println(unitLabel3.getText().replace("=",""));
+        String[] ss = getSIPrefixList(SIEnhed1.getText());
+        for(String s : ss) System.out.println(s);
         
         double v1 = Double.parseDouble(value1.getText());
         double v2 = Double.parseDouble(value2.getText());
@@ -495,15 +494,18 @@ public final class window extends javax.swing.JFrame {
      * Will return all available prefixed units
      * @param name SI-name of unit
      * @return List of prefixed units of SI-name
-     * @return null if non is available
+     * @return empty array
      */
-    private Object[] getSIPrefixList(String name) {
+    private String[] getSIPrefixList(String name) {
         ArrayList<String> list = new ArrayList<>();
         for (String[][] s : si)
             for (String[] t : s)
-                if (t[0] != null && !t[0].equals(s[0][0]) && s[0][0].equals(name))
+                if (t[0] != null && !capitalize(t[0]).equals(s[0][0]) && capitalize(s[0][0]).equals(name))
                     list.add(t[0]);
-        return list.toArray();
+        String[] s = new String[list.size()];
+        for(int i = 0; i < s.length; i++)
+            s[i] = list.get(i);
+        return s;
     }
     
     /**
