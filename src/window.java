@@ -2,6 +2,7 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.logging.*;
 import javax.script.*;
+import jdk.nashorn.api.scripting.ScriptObjectMirror;
 
 
 /**
@@ -134,6 +135,11 @@ public final class window extends javax.swing.JFrame {
         value1.setFont(new java.awt.Font("Cambria Math", 0, 24)); // NOI18N
         value1.setText("1000");
         value1.setBorder(null);
+        value1.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                value1FocusLost(evt);
+            }
+        });
         value1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 value1ActionPerformed(evt);
@@ -145,6 +151,11 @@ public final class window extends javax.swing.JFrame {
         value2.setFont(new java.awt.Font("Cambria Math", 0, 24)); // NOI18N
         value2.setText("1000");
         value2.setBorder(null);
+        value2.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                value2FocusLost(evt);
+            }
+        });
         value2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 value2ActionPerformed(evt);
@@ -156,6 +167,11 @@ public final class window extends javax.swing.JFrame {
         value3.setFont(new java.awt.Font("Cambria Math", 0, 24)); // NOI18N
         value3.setText("1000");
         value3.setBorder(null);
+        value3.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                value3FocusLost(evt);
+            }
+        });
         value3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 value3ActionPerformed(evt);
@@ -272,15 +288,15 @@ public final class window extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void value1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_value1ActionPerformed
-        // TODO add your handling code here:
+        calc(1);
     }//GEN-LAST:event_value1ActionPerformed
 
     private void value2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_value2ActionPerformed
-        // TODO add your handling code here:
+        calc(2);
     }//GEN-LAST:event_value2ActionPerformed
 
     private void value3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_value3ActionPerformed
-        // TODO add your handling code here:
+        calc(3);
     }//GEN-LAST:event_value3ActionPerformed
 
     private void formelListValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_formelListValueChanged
@@ -289,14 +305,23 @@ public final class window extends javax.swing.JFrame {
         String[] infomation = formler[selectedIndex].replaceAll("\"[ \\w]+\": ?\\{(.*?)\\},?","$1").split("^\".+?\": ?");
         for(String s : infomation) {
             String[] su = s.replaceAll(" ?\"[ \\w]+\":","").split(",? (?!\")");
+            String[] e = s.replaceAll("\": ?\\[.+?\\],? ?","=").split("\"");
             for(int i = 1; i < su.length; i++) {
                 String a = capitalize(getSINameFromUnit(su[i].replaceAll("\\[(-?\\d+.?\\d*), \"(.+?)\"\\]", "$2")));
                 switch(i) {
-                    case 1: SIEnhed1.setText(a); break;
-                    case 2: SIEnhed2.setText(a); break;
-                    case 3: SIEnhed3.setText(a); break;
+                    case 1:
+                        SIEnhed1.setText(a);
+                        unitLabel1.setText(insertGreek(e[i]));
+                        break;
+                    case 2:
+                        SIEnhed2.setText(a);
+                        unitLabel2.setText(insertGreek(e[i]));
+                        break;
+                    case 3:
+                        SIEnhed3.setText(a);
+                        unitLabel3.setText(insertGreek(e[i]));
+                        break;
                 }
-                
             }
         }
         String[] parts = formler[selectedIndex].replaceAll("\"\\w+\": \\{(.+?)\\},?", "$1").split("\\],");
@@ -332,12 +357,25 @@ public final class window extends javax.swing.JFrame {
         
         temp = insertGreek(temp);
         
+        stringFormulars = temp.split("\n\r");
         formelDisplay.setText(temp);
     }//GEN-LAST:event_formelListValueChanged
+
+    private void value1FocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_value1FocusLost
+        calc(1);
+    }//GEN-LAST:event_value1FocusLost
+
+    private void value2FocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_value2FocusLost
+        calc(2);
+    }//GEN-LAST:event_value2FocusLost
+
+    private void value3FocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_value3FocusLost
+        calc(3);
+    }//GEN-LAST:event_value3FocusLost
     
     // Array med alle formlerne holdes public til sener brug af andre
     // funktioner/classes.
-    public String[] formler, enheder;
+    public String[] formler, enheder, stringFormulars;
     private String[][][] si;
     
     /**
@@ -349,11 +387,11 @@ public final class window extends javax.swing.JFrame {
             String formlerString = window.getFileContent(".\\src\\formler.json"),
                    enhederString = window.getFileContent(".\\src\\enheder.json");
 
-            try {
-                JSONObject o = new JSONObject(formlerString);
-            } catch (ScriptException ex) {
-                Logger.getLogger(window.class.getName()).log(Level.SEVERE, null, ex);
-            }
+            //try {
+            //    JSONObject o = new JSONObject(formlerString);
+            //} catch (ScriptException ex) {
+            //    Logger.getLogger(window.class.getName()).log(Level.SEVERE, null, ex);
+            //}
             
             formler = formlerString.replaceAll("^\\{\n|  |\\}\\n?$", "").split("\n");
             String[] navne = new String[formler.length];
@@ -375,10 +413,53 @@ public final class window extends javax.swing.JFrame {
                 } catch (Throwable ex) {}
             }
             
+            formelList.setSelectedIndex(0);
+            
         } catch (IOException ex) {
             Logger.getLogger(window.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+    
+    private int[] lastChanged = new int[2];
+    
+    /**
+     * 
+     * @param nth 
+     */
+    private void calc(int nth) {
+        if(lastChanged[1] != nth) {
+            lastChanged[0] = lastChanged[1];
+            lastChanged[1] = nth;
+        }
+        
+        System.out.println(unitLabel1.getText().replace("=",""));
+        System.out.println(unitLabel2.getText().replace("=",""));
+        System.out.println(unitLabel3.getText().replace("=",""));
+        
+        double v1 = Double.parseDouble(value1.getText());
+        double v2 = Double.parseDouble(value2.getText());
+        double v3 = Double.parseDouble(value3.getText());
+        
+        switch(3 - (lastChanged[0] + lastChanged[1] - 3)) {
+            case 1: calc(nth, v2,v3,"",""); value1.setText(""+(v2*v3)); break;
+            case 2: calc(nth, v1,v3,"",""); value2.setText(""+(v1*v3)); break;
+            case 3: calc(nth, v2,v3,"",""); value3.setText(""+(v1*v2)); break;
+        }
+    }
+    
+    private double calc(int nth, double v1, double v2, String u1, String u2) {
+        ScriptEngineManager manager = new ScriptEngineManager();
+        ScriptEngine engine = manager.getEngineByName("js");
+        String test;
+        /*try {
+            test = (String) engine.eval(stringFormulars[nth-1]);
+            //System.out.println(test+", "+v1+", "+v2+", "+u1+", "+u2);
+        } catch (ScriptException ex) {
+            Logger.getLogger(window.class.getName()).log(Level.SEVERE, null, ex);
+        }*/
+        return 0.0;
+    }
+    
     /**
      * inputs symbols in the equations thus using the correct symbols for the units
      * @param s
