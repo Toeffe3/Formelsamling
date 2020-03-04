@@ -312,14 +312,29 @@ public final class window extends javax.swing.JFrame {
                     case 1:
                         SIEnhed1.setText(a);
                         unitLabel1.setText(insertGreek(e[i]));
+                        unitSelect1.removeAllItems();
+                        for(String u : getSIPrefixList(SIEnhed1.getText())){
+                            unitSelect1.addItem(insertGreek(u));
+                        }
+                        unitSelect1.removeItemAt(0);
                         break;
                     case 2:
                         SIEnhed2.setText(a);
                         unitLabel2.setText(insertGreek(e[i]));
+                        unitSelect2.removeAllItems();
+                        for(String u : getSIPrefixList(SIEnhed2.getText())){
+                            unitSelect2.addItem(insertGreek(u));
+                        }
+                        unitSelect2.removeItemAt(0);
                         break;
                     case 3:
                         SIEnhed3.setText(a);
                         unitLabel3.setText(insertGreek(e[i]));
+                        unitSelect3.removeAllItems();
+                        for(String u : getSIPrefixList(SIEnhed3.getText())){
+                            unitSelect3.addItem(insertGreek(u));
+                        }
+                        unitSelect3.removeItemAt(0);
                         break;
                 }
             }
@@ -469,7 +484,7 @@ public final class window extends javax.swing.JFrame {
             "LAMBDA", "λ",
             "RHO", "ρ",
             "F_t", "Fₜ",
-            "KONSTANT", ""
+            "OMEGA", "Ω"
         };
         for(int i = 0; i < greek.length; i+=2)
             s=s.replaceAll(greek[i], greek[i+1]);
