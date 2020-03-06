@@ -2,7 +2,6 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.logging.*;
 import javax.script.*;
-import jdk.nashorn.api.scripting.ScriptObjectMirror;
 
 
 /**
@@ -344,6 +343,7 @@ public final class window extends javax.swing.JFrame {
         String temp = "";
         for(int i = 0; i < tempparts.length; i++)
             tempparts[i] = parts[i].replaceAll("\"(\\w+)\": ?\\[(.+?), ?\".+?\"\\]? ?", "$1^$2");
+        
         for(String t : tempparts) {
             temp += t+"=";
             for(String s : tempparts)
@@ -355,7 +355,7 @@ public final class window extends javax.swing.JFrame {
         temp = temp.replaceAll("(.+?)\\^-1=(.+)", "$1=$2");
         temp = temp.replaceAll("(.+?)\\^1=(.+)", "$1=1/($2)");
         temp = temp.replaceAll("(\\w+)\\^1", "$1");
-        temp = temp.replaceAll("(\\w+)\\^-1 (\\w+)\\^-1", "1/($1$2)");
+        temp = temp.replaceAll("(\\w+)\\^-1 (\\w+)\\^-1", "1/($1*$2)");
         temp = temp.replaceAll("(\\w+)\\^-(\\d+) (\\w+)\\^-(\\d+)", "($2/$1)*($4/$3)");
         temp = temp.replaceAll("(\\w+) (\\w+)\\^-1", "($1/$2)");
         temp = temp.replaceAll("(\\w+) (\\w+)\\^-(\\d+)", "($1/$2^$3)");
@@ -372,7 +372,7 @@ public final class window extends javax.swing.JFrame {
         
         temp = insertGreek(temp);
         
-        stringFormulars = temp.split("\n\r");
+        stringFormulars = temp.split("\r?\n\r?");
         formelDisplay.setText(temp);
     }//GEN-LAST:event_formelListValueChanged
 
@@ -446,32 +446,41 @@ public final class window extends javax.swing.JFrame {
             lastChanged[0] = lastChanged[1];
             lastChanged[1] = nth;
         }
-        
-        String[] ss = getSIPrefixList(SIEnhed1.getText());
-        for(String s : ss) System.out.println(s);
-        
+
         double v1 = Double.parseDouble(value1.getText());
         double v2 = Double.parseDouble(value2.getText());
         double v3 = Double.parseDouble(value3.getText());
-        
-        switch(3 - (lastChanged[0] + lastChanged[1] - 3)) {
-            case 1: calc(nth, v2,v3,"",""); value1.setText(""+(v2*v3)); break;
-            case 2: calc(nth, v1,v3,"",""); value2.setText(""+(v1*v3)); break;
-            case 3: calc(nth, v2,v3,"",""); value3.setText(""+(v1*v2)); break;
+
+        double u1 = getSIValue(unitSelect1.getSelectedItem().toString());
+        double u2 = getSIValue(unitSelect2.getSelectedItem().toString());
+        double u3 = getSIValue(unitSelect3.getSelectedItem().toString());
+
+        String l1 = unitLabel1.getText();
+        String l2 = unitLabel2.getText();
+        String l3 = unitLabel3.getText();
+            
+        try {
+            switch(3 - (lastChanged[0] + lastChanged[1] - 3)) {
+                case 1:
+                    value1.setText(calc(0,v2,v3,u2,u3,u1,l2,l3));
+                    break;
+                case 2:
+                    value2.setText(calc(1,v1,v3,u1,u3,u2,l1,l3));
+                    break;
+                case 3:
+                    value3.setText(calc(2,v1,v2,u1,u2,u3,l1,l2));
+                    break;
+            }
+        } catch (ScriptException ex) {
+            Logger.getLogger(window.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     
-    private double calc(int nth, double v1, double v2, String u1, String u2) {
+    
+    private String calc(int nth, double v1, double v2, double u1, double u2, double u3, String i1, String i2) throws ScriptException {
         ScriptEngineManager manager = new ScriptEngineManager();
         ScriptEngine engine = manager.getEngineByName("js");
-        String test;
-        /*try {
-            test = (String) engine.eval(stringFormulars[nth-1]);
-            //System.out.println(test+", "+v1+", "+v2+", "+u1+", "+u2);
-        } catch (ScriptException ex) {
-            Logger.getLogger(window.class.getName()).log(Level.SEVERE, null, ex);
-        }*/
-        return 0.0;
+        return (Math.floor(Double.parseDouble((engine.eval("var "+i1+(v1*u1)+","+i2+(v2*u2)+","+stringFormulars[nth]+";("+stringFormulars[nth].replaceAll("\\=.+","")+")")).toString())*1000*u3)/1000)+"";
     }
     
     /**
@@ -495,14 +504,14 @@ public final class window extends javax.swing.JFrame {
      * Get the factor no greater or less than (int)
      * @param unit Any available unit
      * @return The factor of given unit
-     * @return 0 if non is available
+     * @return 0.0 if non is available
      */
-    private int getSIValue(String unit) {
+    private double getSIValue(String unit) {
         for (String[][] s : si)
             for (String[] t : s)
                 if (t[0] != null && !t[0].equals(s[0][0]) && t[0].equals(unit))
-                    return Integer.parseInt(t[1]);
-        return 0;
+                    return Double.parseDouble(t[1]);
+        return 0.0;
     }
     
     /**
@@ -549,13 +558,16 @@ public final class window extends javax.swing.JFrame {
                 for (String t : a[1].split(", ?")) 
                     if(t.split(": ?")[0].replaceAll("\"","").equals(unit))
                         return a[0];
-        }
-        return "";
+        } return "";
     }
     
+    /**
+     * 
+     * @param s
+     * @return 
+     */
     public String capitalize(String s) {
-        if(s.length() > 0) return s.toUpperCase().charAt(0) + s.substring(1,s.length());
-        else return "";
+        if(s.length() > 0) return s.toUpperCase().charAt(0) + s.substring(1,s.length()); else return "";
     }
     
     /**
@@ -600,21 +612,14 @@ public final class window extends javax.swing.JFrame {
          * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
          */
         try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
+            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels())
+                if ("Nimbus".equals(info.getName()))
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(window.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(window.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(window.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(window.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        
         //</editor-fold>
 
         /* Create and display the form */
