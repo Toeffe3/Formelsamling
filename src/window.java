@@ -3,7 +3,6 @@ import java.util.ArrayList;
 import java.util.logging.*;
 import javax.script.*;
 
-
 /**
  * Et program der gennem grafisk brugerflade tillader brugeren at slå formler op
  * og lave udregninger med dem.
@@ -312,27 +311,24 @@ public final class window extends javax.swing.JFrame {
                         SIEnhed1.setText(a);
                         unitLabel1.setText(insertGreek(e[i]));
                         unitSelect1.removeAllItems();
-                        for(String u : getSIPrefixList(SIEnhed1.getText())){
+                        for(String u : getSIPrefixList(SIEnhed1.getText()))
                             unitSelect1.addItem(insertGreek(u));
-                        }
                         unitSelect1.removeItemAt(0);
                         break;
                     case 2:
                         SIEnhed2.setText(a);
                         unitLabel2.setText(insertGreek(e[i]));
                         unitSelect2.removeAllItems();
-                        for(String u : getSIPrefixList(SIEnhed2.getText())){
+                        for(String u : getSIPrefixList(SIEnhed2.getText()))
                             unitSelect2.addItem(insertGreek(u));
-                        }
                         unitSelect2.removeItemAt(0);
                         break;
                     case 3:
                         SIEnhed3.setText(a);
                         unitLabel3.setText(insertGreek(e[i]));
                         unitSelect3.removeAllItems();
-                        for(String u : getSIPrefixList(SIEnhed3.getText())){
+                        for(String u : getSIPrefixList(SIEnhed3.getText()))
                             unitSelect3.addItem(insertGreek(u));
-                        }
                         unitSelect3.removeItemAt(0);
                         break;
                 }
@@ -392,6 +388,7 @@ public final class window extends javax.swing.JFrame {
     // funktioner/classes.
     public String[] formler, enheder, stringFormulars;
     private String[][][] si;
+    private int[] lastChanged = new int[2];
     
     /**
      * Load content that needs to be loaded at startup, including loading json
@@ -401,23 +398,15 @@ public final class window extends javax.swing.JFrame {
         try {
             String formlerString = window.getFileContent(".\\src\\formler.json"),
                    enhederString = window.getFileContent(".\\src\\enheder.json");
-
-            //try {
-            //    JSONObject o = new JSONObject(formlerString);
-            //} catch (ScriptException ex) {
-            //    Logger.getLogger(window.class.getName()).log(Level.SEVERE, null, ex);
-            //}
             
             formler = formlerString.replaceAll("^\\{\n|  |\\}\\n?$", "").split("\n");
             String[] navne = new String[formler.length];
             for(int i = 0; i < navne.length; i++)
                 navne[i] = formler[i].replaceAll("\"(\\w+)\".+","$1").replaceAll("_"," ");
             formelList.setListData(navne);
-            
-            // Initilize units
             enheder = enhederString.replaceAll("^\\{|  |\\}\\n?$", "").split("\n");
-            si = new String[enheder.length][10][2]; // TODO: Optimer size
-            for(int i = 0; i < si.length; i++) {
+            si = new String[enheder.length][10][2];
+            for(int i = 0; i < si.length; i++)
                 try {
                     String[] r;
                     r = (String[]) extractAllGroups(enheder[i], "\"(.+?)\": ?\\{(.+),?\\}",2);
@@ -426,7 +415,6 @@ public final class window extends javax.swing.JFrame {
                     for (int j = 0; j < s.length; j++)
                         si[i][j+1] = s[j].replaceAll("\"(.+?)\"", "$1").split(": ?");
                 } catch (Throwable ex) {}
-            }
             
             formelList.setSelectedIndex(0);
             
@@ -435,11 +423,10 @@ public final class window extends javax.swing.JFrame {
         }
     }
     
-    private int[] lastChanged = new int[2];
     
     /**
-     * 
-     * @param nth 
+     * Calculates the 3rd value field given 2 other value fields
+     * @param nth which index to calculate
      */
     private void calc(int nth) {
         if(lastChanged[1] != nth) {
@@ -476,7 +463,19 @@ public final class window extends javax.swing.JFrame {
         }
     }
     
-    
+    /**
+     * Evaluates the formular 
+     * @param nth formular-index
+     * @param v1 Input number 1
+     * @param v2 Input number 2
+     * @param u1 Unit value 1
+     * @param u2 Unit value 2
+     * @param u3 Output unit value
+     * @param i1 Variable name for number 1
+     * @param i2 Variable name for number 2
+     * @return The calculated value
+     * @throws ScriptException 
+     */
     private String calc(int nth, double v1, double v2, double u1, double u2, double u3, String i1, String i2) throws ScriptException {
         ScriptEngineManager manager = new ScriptEngineManager();
         ScriptEngine engine = manager.getEngineByName("js");
@@ -562,9 +561,9 @@ public final class window extends javax.swing.JFrame {
     }
     
     /**
-     * 
-     * @param s
-     * @return 
+     * Returns the uppercase equvilant string
+     * @param s String to uppercase
+     * @return uppercase string
      */
     public String capitalize(String s) {
         if(s.length() > 0) return s.toUpperCase().charAt(0) + s.substring(1,s.length()); else return "";
