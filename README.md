@@ -1,2 +1,3 @@
 # Formelsamling
-(Danish) Eksamensprojekt
+(Danish) Skoleprojekt
+(English) School project
